@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Learn English</string>
+
+    <string name="word">Word</string>
+    <string name="meaning">Meaning</string>
+    <string name="enter_word_hint">Type word here</string>
+    <string name="enter_meaning_hint">Type meaning here</string>
+    <string name="add">Add</string>
+    <string name="show_meaning">Show meaning</string>
+</resources>
