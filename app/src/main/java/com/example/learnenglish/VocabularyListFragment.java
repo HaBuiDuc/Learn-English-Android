@@ -19,6 +19,7 @@ import java.util.List;
 public class VocabularyListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ImageButton mAddImageButton;
+    private MyAdapter mAdapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,10 +40,23 @@ public class VocabularyListFragment extends Fragment {
         updateUI();
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     private void updateUI() {
         List<Vocabulary> vocabularies = VocabularyLab.get(getActivity()).getVocabularyList();
-        MyAdapter adapter = new MyAdapter(vocabularies);
-        mRecyclerView.setAdapter(adapter);
+        if (mAdapter == null) {
+            mAdapter = new MyAdapter(vocabularies);
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.setVocabularyList(VocabularyLab.get(getActivity()).getVocabularyList());
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     private class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -90,6 +104,9 @@ public class VocabularyListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mVocabularyList.size();
+        }
+        public void setVocabularyList(List<Vocabulary> vocabularies) {
+            mVocabularyList = vocabularies;
         }
     }
 }

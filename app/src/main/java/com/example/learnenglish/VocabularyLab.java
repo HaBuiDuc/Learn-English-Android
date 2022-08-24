@@ -32,7 +32,6 @@ public class VocabularyLab {
     public List<Vocabulary> getVocabularyList() {
         List<Vocabulary> vocabularyList = new ArrayList<>();
         VocabularyCursorWrapper cursorWrapper = queryVocabulary(null, null);
-
         try {
             if (cursorWrapper.moveToFirst()) {
                 while (!cursorWrapper.isAfterLast()) {

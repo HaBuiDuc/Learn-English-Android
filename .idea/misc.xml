@@ -11,6 +11,8 @@
         <entry key="app/src/main/res/layout/add_vocabulary_fragment.xml" value="0.2640625" />
         <entry key="app/src/main/res/layout/frame_layout.xml" value="0.2640625" />
         <entry key="app/src/main/res/layout/item_list_view.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/test_word_pager_activity.xml" value="0.2640625" />
+        <entry key="app/src/main/res/layout/test_word_pager_fragment.xml" value="0.2640625" />
         <entry key="app/src/main/res/layout/view_pager_fragment.xml" value="0.23166023166023167" />
         <entry key="app/src/main/res/layout/vocabulary_list_fragment.xml" value="0.2640625" />
         <entry key="app/src/main/res/layout/vocabulary_view_pager.xml" value="0.19519927536231885" />
@@ -25,5 +27,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.2640625" />
+      </ProjectState>
+    </option>
   </component>
 </project>
