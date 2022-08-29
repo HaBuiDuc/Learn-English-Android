@@ -11,19 +11,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Date;
 import java.util.List;
 
 public class VocabularyListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ImageButton mAddImageButton;
     private MyAdapter mAdapter;
+    private Date date;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.vocabulary_list_fragment, container, false);
+
+        assert getArguments() != null;
+        date = (Date) getArguments().getSerializable(MainActivity.DATE_EXTRA);
 
         mRecyclerView = view.findViewById(R.id.vocabulary_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -33,6 +40,7 @@ public class VocabularyListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddVocabularyActivity.class);
+                intent.putExtra(AddVocabularyActivity.DATE_EXTRA, date);
                 startActivity(intent);
             }
         });
@@ -49,13 +57,14 @@ public class VocabularyListFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void updateUI() {
-        List<Vocabulary> vocabularies = VocabularyLab.get(getActivity()).getVocabularyList();
+        List<Vocabulary> vocabularies = VocabularyLab.get(getActivity()).getVocabularyList(date);
         if (mAdapter == null) {
             mAdapter = new MyAdapter(vocabularies);
             mRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.setVocabularyList(VocabularyLab.get(getActivity()).getVocabularyList());
+            mAdapter.setVocabularyList(VocabularyLab.get(getActivity()).getVocabularyList(date));
             mAdapter.notifyDataSetChanged();
+            mRecyclerView.setAdapter(mAdapter);
         }
     }
 
@@ -63,7 +72,7 @@ public class VocabularyListFragment extends Fragment {
         private TextView wordTextView;
         private TextView meaningTextView;
         public MyHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.item_list_view, parent, false));
+            super(inflater.inflate(R.layout.item_vocabulary_list_view, parent, false));
             itemView.setOnClickListener(this);
 
             wordTextView = itemView.findViewById(R.id.word_text_view);
@@ -79,8 +88,14 @@ public class VocabularyListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = VocabularyViewPagerActivity.newIntent(getActivity(), mVocabulary);
-            startActivity(intent);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(VocabularyViewPagerFragment.VOCABULARY_INTENT, mVocabulary);
+            VocabularyViewPagerFragment vocabularyViewPagerActivity = new VocabularyViewPagerFragment();
+//            vocabularyViewPagerActivity.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.vocabulary_list_fragment, vocabularyViewPagerActivity);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         }
     }
     private class MyAdapter extends RecyclerView.Adapter<MyHolder> {

@@ -7,7 +7,7 @@ public class VocabularyListActivity extends SingleFragmentActivity{
 
     @Override
     public Fragment createFragment() {
-        return new VocabularyListFragment();
+        return null;
     }
 
     @Override

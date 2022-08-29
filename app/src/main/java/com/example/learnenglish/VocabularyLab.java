@@ -1,19 +1,20 @@
 package com.example.learnenglish;
 
-import android.app.DownloadManager;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import com.example.learnenglish.database.VocabularyBaseHelper;
+import com.example.learnenglish.database.AppBaseHelper;
+import com.example.learnenglish.database.DateCursorWrapper;
+import com.example.learnenglish.database.DateDbSchema;
+import com.example.learnenglish.database.DateDbSchema.DateTable;
 import com.example.learnenglish.database.VocabularyCursorWrapper;
-import com.example.learnenglish.database.VocabularyDbSchema;
 import com.example.learnenglish.database.VocabularyDbSchema.VocabularyTable;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class VocabularyLab {
     private static VocabularyLab sVocabularyLab;
@@ -27,15 +28,17 @@ public class VocabularyLab {
     }
     private VocabularyLab(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new VocabularyBaseHelper(mContext).getWritableDatabase();
+        mDatabase = new AppBaseHelper(mContext).getWritableDatabase();
     }
-    public List<Vocabulary> getVocabularyList() {
+    public List<Vocabulary> getVocabularyList(Date date) {
         List<Vocabulary> vocabularyList = new ArrayList<>();
         VocabularyCursorWrapper cursorWrapper = queryVocabulary(null, null);
         try {
             if (cursorWrapper.moveToFirst()) {
                 while (!cursorWrapper.isAfterLast()) {
-                    vocabularyList.add(cursorWrapper.getVocabulary());
+                    if (cursorWrapper.getVocabulary().getDate().equals(date)) {
+                        vocabularyList.add(cursorWrapper.getVocabulary());
+                    }
                     cursorWrapper.moveToNext();
                 }
             }
@@ -43,6 +46,24 @@ public class VocabularyLab {
             cursorWrapper.close();
         }
         return vocabularyList;
+    }
+    public List<Date> getDateList() {
+        List<Date> dateList = new ArrayList<>();
+        DateCursorWrapper cursorWrapper = queryDate(null, null);
+        try {
+            if (cursorWrapper.moveToFirst()) {
+                while (!cursorWrapper.isAfterLast()) {
+                    dateList.add(cursorWrapper.getDate());
+                    cursorWrapper.moveToNext();
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        finally {
+            cursorWrapper.close();
+        }
+        return dateList;
     }
     public Vocabulary getVocabulary(String word) {
         try (VocabularyCursorWrapper cursorWrapper = queryVocabulary(VocabularyTable.cols.WORD + " = ? ", new String[] {word});){
@@ -64,6 +85,17 @@ public class VocabularyLab {
         ContentValues contentValues = new ContentValues();
         contentValues.put(VocabularyTable.cols.WORD, vocabulary.getWord());
         contentValues.put(VocabularyTable.cols.MEANING, vocabulary.getMeaning());
+        contentValues.put(VocabularyTable.cols.DATE, vocabulary.getDate().toString());
+
+        return contentValues;
+    }
+    public void addDate(Date date) {
+        ContentValues contentValues = getContentValues(date);
+        mDatabase.insert(DateTable.NAME, null, contentValues);
+    }
+    private ContentValues getContentValues(Date date) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DateTable.cols.DATE, String.valueOf(date));
 
         return contentValues;
     }
@@ -77,5 +109,16 @@ public class VocabularyLab {
                 null
         );
         return new VocabularyCursorWrapper(cursor);
+    }
+    private DateCursorWrapper queryDate(String whereClause, String[] whereArgs) {
+        Cursor cursor = mDatabase.query(DateTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+        return new DateCursorWrapper(cursor);
     }
 }

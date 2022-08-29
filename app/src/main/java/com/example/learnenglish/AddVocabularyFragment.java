@@ -10,8 +10,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import java.util.Date;
 
 public class AddVocabularyFragment extends Fragment {
+    public static final String DATE_EXTRA = "date_extra";
     private Button addWordButton;
     private EditText addWordEditText;
     private EditText addMeaningEditText;
@@ -20,6 +25,8 @@ public class AddVocabularyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_vocabulary_fragment, container, false);
+
+        Date date = (Date) getArguments().getSerializable(DATE_EXTRA);
 
         addWordButton = view.findViewById(R.id.add_vocabulary_button);
         addWordButton.setOnClickListener(new View.OnClickListener() {
@@ -30,6 +37,7 @@ public class AddVocabularyFragment extends Fragment {
                 String meaning = addMeaningEditText.getText().toString();
                 vocabulary.setWord(word);
                 vocabulary.setMeaning(meaning);
+                vocabulary.setDate(date);
 
                 if (word.matches("") || meaning.matches("")) {
                     Toast.makeText(getActivity(), "Word and meaning can't blank", Toast.LENGTH_SHORT).show();
@@ -45,5 +53,12 @@ public class AddVocabularyFragment extends Fragment {
         addMeaningEditText = view.findViewById(R.id.add_meaning_edit_text);
 
         return view;
+    }
+    public static AddVocabularyFragment newInstance(Date date) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(DATE_EXTRA, date);
+        AddVocabularyFragment addVocabularyFragment = new AddVocabularyFragment();
+        addVocabularyFragment.setArguments(bundle);
+        return addVocabularyFragment;
     }
 }

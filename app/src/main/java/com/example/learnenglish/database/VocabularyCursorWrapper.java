@@ -5,6 +5,8 @@ import android.database.CursorWrapper;
 import com.example.learnenglish.Vocabulary;
 import com.example.learnenglish.database.VocabularyDbSchema.VocabularyTable;
 
+import java.util.Date;
+
 public class VocabularyCursorWrapper extends CursorWrapper {
     /**
      * Creates a cursor wrapper.
@@ -17,7 +19,8 @@ public class VocabularyCursorWrapper extends CursorWrapper {
     public Vocabulary getVocabulary() {
         String word = getString(getColumnIndex(VocabularyTable.cols.WORD));
         String meaning = getString(getColumnIndex(VocabularyTable.cols.MEANING));
+        String date = getString(getColumnIndex(VocabularyTable.cols.DATE));
 
-        return new Vocabulary(word, meaning);
+        return new Vocabulary(word, meaning, new Date(date));
     }
 }

@@ -39,6 +39,7 @@ public class ViewPagerFragment extends Fragment {
 
         return view;
     }
+
     public static ViewPagerFragment newInstance(Vocabulary vocabulary) {
         ViewPagerFragment viewPagerFragment = new ViewPagerFragment();
         Bundle bundle = new Bundle();

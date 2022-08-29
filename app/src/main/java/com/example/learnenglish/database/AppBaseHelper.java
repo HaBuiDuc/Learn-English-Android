@@ -4,22 +4,30 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
+
+import com.example.learnenglish.Vocabulary;
+import com.example.learnenglish.database.DateDbSchema.DateTable;
 import com.example.learnenglish.database.VocabularyDbSchema.VocabularyTable;
 
-public class VocabularyBaseHelper extends SQLiteOpenHelper {
+public class AppBaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "vocabulary.db";
     private static final int VERSION = 1;
-    public VocabularyBaseHelper(@Nullable Context context) {
+    public AppBaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sqlExec = "create table " + VocabularyTable.NAME + "( id integer primary key autoincrement, " +
+        String vocabularyTable = "create table " + VocabularyTable.NAME + "( id integer primary key autoincrement, " +
                 VocabularyTable.cols.WORD + ", " +
-                VocabularyTable.cols.MEANING +
+                VocabularyTable.cols.MEANING + ", " +
+                VocabularyTable.cols.DATE +
                 ")";
-        db.execSQL(sqlExec);
+        String dateTable = "create table " + DateTable.NAME + "( id integer primary key autoincrement, " +
+                DateTable.cols.DATE +
+                ")";
+        db.execSQL(vocabularyTable);
+        db.execSQL(dateTable);
     }
 
     @Override
