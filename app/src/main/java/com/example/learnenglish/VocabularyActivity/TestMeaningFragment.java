@@ -67,7 +67,7 @@ public class TestMeaningFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String input = textInputEditText.getText().toString();
-                if (Objects.equals(input, vocabulary.getWord())) {
+                if (input.trim().equalsIgnoreCase(vocabulary.getWord().trim())) {
                     int color = getResources().getColor(R.color.teal_200);
                     textInputLayout.setErrorTextColor(ColorStateList.valueOf(color));
                     textInputLayout.setError("Correct");

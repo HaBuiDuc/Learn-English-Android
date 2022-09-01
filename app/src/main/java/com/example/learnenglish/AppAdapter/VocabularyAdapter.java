@@ -12,7 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.learnenglish.IShowHideDelete;
 import com.example.learnenglish.R;
 import com.example.learnenglish.VocabularyPackage.Vocabulary;
 import com.example.learnenglish.VocabularyPackage.VocabularyLab;
@@ -27,6 +30,8 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.My
     private List<Vocabulary> mVocabularyList;
     private List<Integer> mPositonSelectedList;
     private List<Vocabulary> mVocabularySelectedList;
+    private IShowHideDelete mIShowHideDelete;
+
 
     public boolean isEnabled() {
         return isEnabled;
@@ -35,13 +40,14 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.My
     private boolean isEnabled;
     private Activity mActivity;
     private Date mDate;
-    public VocabularyAdapter(List<Vocabulary> vocabularies, Activity activity, Date date){
+    public VocabularyAdapter(List<Vocabulary> vocabularies, Activity activity, Date date, Fragment fragment){
         mVocabularySelectedList = new ArrayList<>();
         mPositonSelectedList = new ArrayList<>();
         mVocabularyList = vocabularies;
         isEnabled = false;
         mActivity = activity;
         mDate = date;
+        mIShowHideDelete = (IShowHideDelete) fragment;
     }
     @NonNull
     @NotNull
@@ -93,6 +99,7 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.My
                 mPositonSelectedList.add(this.getAdapterPosition());
                 checkImageView.setVisibility(View.VISIBLE);
                 isEnabled = true;
+                mIShowHideDelete.showHideDelete(true);
             }
             return true;
         }
@@ -108,6 +115,7 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.My
                     checkImageView.setVisibility(View.INVISIBLE);
                     if (mPositonSelectedList.size() == 0) {
                         isEnabled = false;
+                        mIShowHideDelete.showHideDelete(false);
                     }
                 }
             }
@@ -130,5 +138,6 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.My
         this.setVocabularyList(vocabularyLab.getVocabularyList(mDate));
         this.notifyDataSetChanged();
         isEnabled = false;
+        mIShowHideDelete.showHideDelete(false);
     }
 }

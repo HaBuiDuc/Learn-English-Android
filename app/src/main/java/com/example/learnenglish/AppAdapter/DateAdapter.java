@@ -9,8 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.learnenglish.IShowHideDelete;
 import com.example.learnenglish.VocabularyActivity.MainActivity;
 import com.example.learnenglish.R;
 import com.example.learnenglish.VocabularyPackage.VocabularyLab;
@@ -26,13 +28,16 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.MyHolder> {
     private List<Date> mDateList;
     private List<Integer> mPositionSelected;
     private List<Date> mDateSelected;
+    private IShowHideDelete mIShowHideDelete;
     private boolean isEnabled;
-    public DateAdapter(List<Date> dateList, Activity activity) {
+    public DateAdapter(List<Date> dateList, Activity activity, Fragment fragment) {
         mPositionSelected = new ArrayList<>();
         mDateSelected = new ArrayList<>();
         this.mDateList = dateList;
         mActivity = activity;
         isEnabled = false;
+        mIShowHideDelete = (IShowHideDelete) fragment;
+
     }
     @NonNull
     @NotNull
@@ -85,6 +90,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.MyHolder> {
                     mDateSelectImageView.setVisibility(View.INVISIBLE);
                     if (mPositionSelected.size() == 0) {
                         isEnabled = false;
+                        mIShowHideDelete.showHideDelete(false);
                     }
                 } else {
                     mPositionSelected.add(this.getAdapterPosition());
@@ -97,6 +103,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.MyHolder> {
         public boolean onLongClick(View view) {
             if (!isEnabled) {
                 isEnabled = true;
+                mIShowHideDelete.showHideDelete(true);
                 mPositionSelected.add(this.getAdapterPosition());
                 mDateSelectImageView.setVisibility(View.VISIBLE);
             }
@@ -119,5 +126,6 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.MyHolder> {
         this.setDateList(vocabularyLab.getDateList());
         this.notifyDataSetChanged();
         isEnabled = false;
+        mIShowHideDelete.showHideDelete(false);
     }
 }

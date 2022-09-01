@@ -20,13 +20,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.learnenglish.AppAdapter.DateAdapter;
 import com.example.learnenglish.DatePickerFragment;
+import com.example.learnenglish.IShowHideDelete;
 import com.example.learnenglish.R;
 import com.example.learnenglish.VocabularyPackage.VocabularyLab;
 
 import java.util.Date;
 import java.util.List;
 
-public class DateListFragment extends Fragment {
+public class DateListFragment extends Fragment implements IShowHideDelete {
     private static final String DIALOG_DATE = "dialog_date";
     private static final int REQUEST_DATE = 0;
     private RecyclerView mRecyclerView;
@@ -62,7 +63,7 @@ public class DateListFragment extends Fragment {
         VocabularyLab vocabularyLab = VocabularyLab.get(getActivity());
         List<Date> dateList = vocabularyLab.getDateList();
         if (myAdapter == null) {
-            myAdapter = new DateAdapter(dateList, getActivity());
+            myAdapter = new DateAdapter(dateList, getActivity(), this);
             mRecyclerView.setAdapter(myAdapter);
         } else {
             myAdapter.setDateList(dateList);
@@ -92,13 +93,15 @@ public class DateListFragment extends Fragment {
             myAdapter.notifyItemInserted(dateList.size()-1);
         }
     }
-
+    private void showDeleteMenu(boolean show) {
+        mMenuItem.setVisible(show);
+    }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.list_custom_menu, menu);
         mMenuItem = menu.findItem(R.id.delete_item);
-        mMenuItem.setVisible(true);
+        showDeleteMenu(false);
     }
 
     @Override
@@ -108,5 +111,10 @@ public class DateListFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showHideDelete(boolean show) {
+        showDeleteMenu(show);
     }
 }
