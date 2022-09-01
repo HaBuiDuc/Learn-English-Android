@@ -1,4 +1,4 @@
-package com.example.learnenglish;
+package com.example.learnenglish.VocabularyPackage;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.example.learnenglish.database.AppBaseHelper;
 import com.example.learnenglish.database.DateCursorWrapper;
-import com.example.learnenglish.database.DateDbSchema;
 import com.example.learnenglish.database.DateDbSchema.DateTable;
 import com.example.learnenglish.database.VocabularyCursorWrapper;
 import com.example.learnenglish.database.VocabularyDbSchema.VocabularyTable;
@@ -92,6 +91,24 @@ public class VocabularyLab {
     public void addDate(Date date) {
         ContentValues contentValues = getContentValues(date);
         mDatabase.insert(DateTable.NAME, null, contentValues);
+    }
+    public void deleteDate(Date date) {
+        VocabularyCursorWrapper cursorWrapper = queryVocabulary(null, null);
+        try {
+            if (cursorWrapper.moveToFirst()) {
+                while (!cursorWrapper.isAfterLast()) {
+                    if (cursorWrapper.getVocabulary().getDate().equals(date)) {
+                        mDatabase.delete(VocabularyTable.NAME, VocabularyTable.cols.WORD + " = ? ", new String[] {
+                                cursorWrapper.getVocabulary().getWord()
+                        });
+                    }
+                    cursorWrapper.moveToNext();
+                }
+            }
+        } finally {
+            cursorWrapper.close();
+        }
+        mDatabase.delete(DateTable.NAME, DateTable.cols.DATE + " = ? ", new String[]{date.toString()});
     }
     private ContentValues getContentValues(Date date) {
         ContentValues contentValues = new ContentValues();

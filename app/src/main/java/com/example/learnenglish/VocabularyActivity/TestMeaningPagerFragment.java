@@ -1,4 +1,4 @@
-package com.example.learnenglish;
+package com.example.learnenglish.VocabularyActivity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.learnenglish.R;
+import com.example.learnenglish.VocabularyPackage.Vocabulary;
 
 import java.io.Serializable;
 import java.util.List;

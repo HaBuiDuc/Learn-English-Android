@@ -1,13 +1,15 @@
-package com.example.learnenglish;
+package com.example.learnenglish.AddVocabulary;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.learnenglish.SingleFragmentActivity;
+
 import java.util.Date;
 
-public class AddVocabularyActivity extends SingleFragmentActivity{
+public class AddVocabularyActivity extends SingleFragmentActivity {
     public static final String DATE_EXTRA = "date_extra";
     private Date date;
 

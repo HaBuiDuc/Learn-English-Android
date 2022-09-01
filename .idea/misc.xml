@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/custom_button.xml" value="0.1295" />
+        <entry key="app/src/main/res/drawable/custom_input.xml" value="0.1225" />
         <entry key="app/src/main/res/drawable/custom_text_view.xml" value="0.1225" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/ic_black_check.xml" value="0.1225" />
+        <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.1225" />
         <entry key="app/src/main/res/drawable/show_meaning_button_custom.xml" value="0.269" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26510416666666664" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.2671875" />
@@ -18,7 +21,7 @@
         <entry key="app/src/main/res/layout/frame_layout.xml" value="0.2640625" />
         <entry key="app/src/main/res/layout/item_date_list_view.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_list_view.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/item_vocabulary_list_view.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/item_vocabulary_list_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/test_word_pager_activity.xml" value="0.2640625" />
         <entry key="app/src/main/res/layout/test_word_pager_fragment.xml" value="0.2640625" />
         <entry key="app/src/main/res/layout/view_pager_fragment.xml" value="0.23166023166023167" />
@@ -27,6 +30,7 @@
         <entry key="app/src/main/res/layout/vocabulary_view_pager.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/menu/app_navigation.xml" value="0.2786458333333333" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.2671875" />
+        <entry key="app/src/main/res/menu/list_custom_menu.xml" value="0.26614583333333336" />
       </map>
     </option>
   </component>

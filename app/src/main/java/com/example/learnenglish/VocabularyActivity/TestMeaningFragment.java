@@ -1,6 +1,10 @@
-package com.example.learnenglish;
+package com.example.learnenglish.VocabularyActivity;
 
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.learnenglish.R;
+import com.example.learnenglish.VocabularyPackage.Vocabulary;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Objects;
 
 public class TestMeaningFragment extends Fragment {
     private static final String VOCABULARY_EXTRA = "vocabulary_extra";
@@ -32,15 +40,43 @@ public class TestMeaningFragment extends Fragment {
         vocabularyTextView.setText(vocabulary.getMeaning());
 
         textInputLayout = view.findViewById(R.id.vocabulary_input_layout);
-        textInputLayout.setError(getString(R.string.wrong_answer));
 
         textInputEditText = view.findViewById(R.id.vocabulary_text_edit_text);
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (Objects.requireNonNull(textInputEditText.getText()).toString().equals("")) {
+                    textInputLayout.setError(null);
+                }
+            }
+        });
 
         checkButton = view.findViewById(R.id.check_button);
         checkButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View v) {
-                if ()
+                String input = textInputEditText.getText().toString();
+                if (Objects.equals(input, vocabulary.getWord())) {
+                    int color = getResources().getColor(R.color.teal_200);
+                    textInputLayout.setErrorTextColor(ColorStateList.valueOf(color));
+                    textInputLayout.setError("Correct");
+                    textInputLayout.setErrorIconDrawable(getResources().getDrawable(R.drawable.ic_check));
+                    textInputLayout.setErrorIconTintList(ColorStateList.valueOf(color));
+                    textInputEditText.setEnabled(false);
+                } else {
+                    textInputLayout.setError("Wrong");
+                }
             }
         });
 

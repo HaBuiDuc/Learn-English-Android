@@ -1,4 +1,4 @@
-package com.example.learnenglish;
+package com.example.learnenglish.AddVocabulary;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,8 +10,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
+import com.example.learnenglish.R;
+import com.example.learnenglish.VocabularyPackage.Vocabulary;
+import com.example.learnenglish.VocabularyPackage.VocabularyLab;
 
 import java.util.Date;
 

@@ -14,10 +14,10 @@
         android:theme="@style/Theme.LearnEnglish"
         tools:targetApi="31">
         <activity
-            android:name=".AddVocabularyActivity"
+            android:name=".AddVocabulary.AddVocabularyActivity"
             android:exported="false" />
         <activity
-            android:name=".DateListActivity"
+            android:name=".DateList.DateListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".VocabularyActivity.MainActivity"/>
     </application>
 
 </manifest>

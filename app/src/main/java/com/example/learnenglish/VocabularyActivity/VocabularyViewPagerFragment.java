@@ -1,4 +1,4 @@
-package com.example.learnenglish;
+package com.example.learnenglish.VocabularyActivity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.learnenglish.R;
+import com.example.learnenglish.VocabularyPackage.Vocabulary;
+import com.example.learnenglish.VocabularyPackage.VocabularyLab;
 
 import java.util.Date;
 import java.util.List;
@@ -22,6 +26,7 @@ public class VocabularyViewPagerFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.vocabulary_view_pager, container, false);
+        assert getArguments() != null;
         date = (Date) getArguments().getSerializable(MainActivity.DATE_EXTRA);
         VocabularyLab vocabularyLab = VocabularyLab.get(getActivity());
         List<Vocabulary> vocabularyList = vocabularyLab.getVocabularyList(date);

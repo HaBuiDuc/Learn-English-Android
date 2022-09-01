@@ -1,16 +1,16 @@
-package com.example.learnenglish;
+package com.example.learnenglish.DateList;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +18,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.learnenglish.AppAdapter.DateAdapter;
+import com.example.learnenglish.DatePickerFragment;
+import com.example.learnenglish.R;
+import com.example.learnenglish.VocabularyPackage.VocabularyLab;
 
 import java.util.Date;
 import java.util.List;
@@ -26,8 +30,10 @@ public class DateListFragment extends Fragment {
     private static final String DIALOG_DATE = "dialog_date";
     private static final int REQUEST_DATE = 0;
     private RecyclerView mRecyclerView;
-    private MyAdapter myAdapter;
+//    private MyAdapter myAdapter;
     private ImageButton mAddDateButton;
+    private DateAdapter myAdapter;
+    private MenuItem mMenuItem;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,13 +43,14 @@ public class DateListFragment extends Fragment {
         mAddDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Button is pressed", Toast.LENGTH_SHORT).show();
                 FragmentManager fragmentManager = getParentFragmentManager();
                 DatePickerFragment datePickerFragment = new DatePickerFragment();
                 datePickerFragment.setTargetFragment(DateListFragment.this, REQUEST_DATE );
                 datePickerFragment.show(fragmentManager, DIALOG_DATE);
             }
         });
+
+        setHasOptionsMenu(true);
 
         mRecyclerView = view.findViewById(R.id.date_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -55,7 +62,7 @@ public class DateListFragment extends Fragment {
         VocabularyLab vocabularyLab = VocabularyLab.get(getActivity());
         List<Date> dateList = vocabularyLab.getDateList();
         if (myAdapter == null) {
-            myAdapter = new MyAdapter(dateList);
+            myAdapter = new DateAdapter(dateList, getActivity());
             mRecyclerView.setAdapter(myAdapter);
         } else {
             myAdapter.setDateList(dateList);
@@ -70,51 +77,6 @@ public class DateListFragment extends Fragment {
         updateUI();
     }
 
-    private class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mTextView;
-        public MyHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.item_date_list_view, parent, false));
-            mTextView = itemView.findViewById(R.id.date_text_view);
-            itemView.setOnClickListener(this);
-        }
-        Date date;
-        private void bind(Date date) {
-            this.date = date;
-            mTextView.setText(String.valueOf(date));
-        }
-
-        @Override
-        public void onClick(View v) {
-            Intent intent = MainActivity.newIntent(getActivity(), date);
-            startActivity(intent);
-        }
-    }
-    private class MyAdapter extends RecyclerView.Adapter <MyHolder> {
-        private List<Date> mDateList;
-        public MyAdapter(List<Date> dateList) {
-            this.mDateList = dateList;
-        }
-        @NonNull
-        @Override
-        public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            return new MyHolder(inflater, parent);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-            Date date = mDateList.get(position);
-            holder.bind(date);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mDateList.size();
-        }
-        public void setDateList(List<Date> dateList) {
-            this.mDateList = dateList;
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -129,5 +91,22 @@ public class DateListFragment extends Fragment {
             myAdapter.setDateList(dateList);
             myAdapter.notifyItemInserted(dateList.size()-1);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.list_custom_menu, menu);
+        mMenuItem = menu.findItem(R.id.delete_item);
+        mMenuItem.setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.delete_item) {
+            myAdapter.deleteSelected();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

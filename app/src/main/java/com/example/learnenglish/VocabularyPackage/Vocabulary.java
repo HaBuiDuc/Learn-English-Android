@@ -1,4 +1,4 @@
-package com.example.learnenglish;
+package com.example.learnenglish.VocabularyPackage;
 
 import java.io.Serializable;
 import java.util.Date;

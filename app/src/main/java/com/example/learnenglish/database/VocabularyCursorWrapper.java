@@ -2,7 +2,7 @@ package com.example.learnenglish.database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
-import com.example.learnenglish.Vocabulary;
+import com.example.learnenglish.VocabularyPackage.Vocabulary;
 import com.example.learnenglish.database.VocabularyDbSchema.VocabularyTable;
 
 import java.util.Date;

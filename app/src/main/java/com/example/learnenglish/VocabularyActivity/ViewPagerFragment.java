@@ -1,4 +1,4 @@
-package com.example.learnenglish;
+package com.example.learnenglish.VocabularyActivity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.learnenglish.R;
+import com.example.learnenglish.VocabularyPackage.Vocabulary;
 
 public class ViewPagerFragment extends Fragment {
     private static final String EXTRA_VOCABULARY = "extra_vocabulary";

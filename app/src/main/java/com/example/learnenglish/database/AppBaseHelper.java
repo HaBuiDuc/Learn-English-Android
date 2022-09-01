@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
-import com.example.learnenglish.Vocabulary;
 import com.example.learnenglish.database.DateDbSchema.DateTable;
 import com.example.learnenglish.database.VocabularyDbSchema.VocabularyTable;
 
