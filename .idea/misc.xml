@@ -3,12 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1225" />
         <entry key="app/src/main/res/drawable/custom_button.xml" value="0.1295" />
         <entry key="app/src/main/res/drawable/custom_input.xml" value="0.1225" />
         <entry key="app/src/main/res/drawable/custom_text_view.xml" value="0.1225" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1865" />
         <entry key="app/src/main/res/drawable/ic_black_check.xml" value="0.1225" />
+        <entry key="app/src/main/res/drawable/ic_book.xml" value="0.1225" />
+        <entry key="app/src/main/res/drawable/ic_check.xml" value="0.1225" />
+        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1225" />
         <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.1225" />
+        <entry key="app/src/main/res/drawable/ic_home.xml" value="0.1225" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1225" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1225" />
+        <entry key="app/src/main/res/drawable/ic_list.xml" value="0.1225" />
         <entry key="app/src/main/res/drawable/show_meaning_button_custom.xml" value="0.269" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26510416666666664" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.2671875" />
@@ -31,6 +39,7 @@
         <entry key="app/src/main/res/menu/app_navigation.xml" value="0.2786458333333333" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.2671875" />
         <entry key="app/src/main/res/menu/list_custom_menu.xml" value="0.26614583333333336" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1225" />
       </map>
     </option>
   </component>
