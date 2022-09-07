@@ -10,8 +10,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,8 +28,9 @@ import com.example.learnenglish.VocabularyPackage.VocabularyLab;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.LogRecord;
 
-public class DateListFragment extends Fragment implements IShowHideDelete {
+public class DateListFragment extends Fragment implements IShowHideDelete, DatePickerFragment.IUpdateUI {
     private static final String DIALOG_DATE = "dialog_date";
     private static final int REQUEST_DATE = 0;
     private RecyclerView mRecyclerView;
@@ -35,6 +38,8 @@ public class DateListFragment extends Fragment implements IShowHideDelete {
     private ImageButton mAddDateButton;
     private DateAdapter myAdapter;
     private MenuItem mMenuItem;
+    private TextView mNoDateTextView;
+    private Button mNoDateButton;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,7 +50,7 @@ public class DateListFragment extends Fragment implements IShowHideDelete {
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getParentFragmentManager();
-                DatePickerFragment datePickerFragment = new DatePickerFragment();
+                DatePickerFragment datePickerFragment = new DatePickerFragment(DateListFragment.this);
                 datePickerFragment.setTargetFragment(DateListFragment.this, REQUEST_DATE );
                 datePickerFragment.show(fragmentManager, DIALOG_DATE);
             }
@@ -56,8 +61,31 @@ public class DateListFragment extends Fragment implements IShowHideDelete {
         mRecyclerView = view.findViewById(R.id.date_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        mNoDateTextView = view.findViewById(R.id.no_date_textview);
+        mNoDateButton = view.findViewById(R.id.no_date_add_button);
+        mNoDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getParentFragmentManager();
+                DatePickerFragment datePickerFragment = new DatePickerFragment(DateListFragment.this);
+                datePickerFragment.setTargetFragment(DateListFragment.this, REQUEST_DATE );
+                datePickerFragment.show(fragmentManager, DIALOG_DATE);
+            }
+        });
+
         updateUI();
         return view;
+    }
+    private void setWidgetVisible() {
+        if (VocabularyLab.get(getActivity()).getDateList().size() == 0) {
+            mNoDateTextView.setVisibility(View.VISIBLE);
+            mNoDateButton.setVisibility(View.VISIBLE);
+            mAddDateButton.setVisibility(View.INVISIBLE);
+        } else {
+            mNoDateTextView.setVisibility(View.INVISIBLE);
+            mNoDateButton.setVisibility(View.INVISIBLE);
+            mAddDateButton.setVisibility(View.VISIBLE);
+        }
     }
     private void updateUI() {
         VocabularyLab vocabularyLab = VocabularyLab.get(getActivity());
@@ -68,14 +96,14 @@ public class DateListFragment extends Fragment implements IShowHideDelete {
         } else {
             myAdapter.setDateList(dateList);
         }
-
+        setWidgetVisible();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("This is a log", "On resume is called");
         updateUI();
+        Log.d("DateListFragment", "onResume is called");
     }
 
 
@@ -108,6 +136,7 @@ public class DateListFragment extends Fragment implements IShowHideDelete {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.delete_item) {
             myAdapter.deleteSelected();
+            setWidgetVisible();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -116,5 +145,10 @@ public class DateListFragment extends Fragment implements IShowHideDelete {
     @Override
     public void showHideDelete(boolean show) {
         showDeleteMenu(show);
+    }
+
+    @Override
+    public void updateUserInterface() {
+        updateUI();
     }
 }

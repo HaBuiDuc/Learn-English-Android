@@ -19,4 +19,8 @@
     <string name="check">Check</string>
     <string name="wrong_answer">Wrong answer</string>
     <string name="delete">Delete</string>
+    <string name="no_vocabulary">There are no vocabulary</string>
+    <string name="no_date">There are no date</string>
+    <string name="add_vocabulary">Add vocabulary</string>
+    <string name="add_date">Add date</string>
 </resources>

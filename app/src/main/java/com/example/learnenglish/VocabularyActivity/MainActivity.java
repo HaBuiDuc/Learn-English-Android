@@ -1,5 +1,7 @@
 package com.example.learnenglish.VocabularyActivity;
 
+import android.os.PersistableBundle;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -19,6 +21,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String DATE_EXTRA = "date_extra";
+    private static final String DATE_SAVED = "date_saved";
     private BottomNavigationView bottomNavigationView;
     private VocabularyListFragment vocabularyListFragment;
     private VocabularyViewPagerFragment vocabularyViewPagerFragment;
@@ -30,15 +33,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         date = (Date) getIntent().getSerializableExtra(DATE_EXTRA);
 
+        if (savedInstanceState != null) {
+            date = (Date) savedInstanceState.getSerializable(DATE_SAVED);
+            Log.d("This is a log", "Ha dep trai");
+        } else {
+            Log.d("This is a log", "Ha rat dep trai");
+        }
+
         bottomNavigationView = findViewById(R.id.app_navigation);
         vocabularyViewPagerFragment = new VocabularyViewPagerFragment();
         vocabularyListFragment = new VocabularyListFragment();
         bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
         bottomNavigationView.setSelectedItemId(R.id.list_item_nav);
         FragmentManager fragmentManager = getSupportFragmentManager();
-
+        Log.d("This is a log", "onCreate of MainActivity is called");
+        if (date != null) {
+            Log.d("This is a log", date.toString());
+        } else {
+            Log.d("This is a log", "Date is null");
+        }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("This is a log", "onResume of MainActivity is called");
+        bottomNavigationView.setSelectedItemId(R.id.list_item_nav);
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putSerializable(DATE_SAVED, date);
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -74,5 +102,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(DATE_EXTRA, date);
         return intent;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("This is a log", "onDestroy MainActivity is called");
     }
 }

@@ -36,7 +36,11 @@ public class ViewPagerFragment extends Fragment {
         mShowMeaningButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMeaningTextView.setVisibility(View.VISIBLE);
+                if (mMeaningTextView.getVisibility() == View.VISIBLE) {
+                    mMeaningTextView.setVisibility(View.INVISIBLE);
+                } else {
+                    mMeaningTextView.setVisibility(View.VISIBLE);
+                }
             }
         });
 
